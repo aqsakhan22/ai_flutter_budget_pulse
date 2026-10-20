@@ -54,3 +54,7 @@ app.*.map.json
 # Build artifacts
 build/
 .dart_tool/
+
+# Android signing keystores
+android/app/upload-keystore.jks
+android/key.properties
