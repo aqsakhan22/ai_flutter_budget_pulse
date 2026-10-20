@@ -92,6 +92,21 @@ jobs:
           name: budget-pulse-release-bundle
           path: build/app/outputs/bundle/release/app-release.aab
           retention-days: 14
+      # ---> ADD THIS STEP TO ALSO GENERATE A DIRECT-INSTALL APK <---
+      - name: Build Signed Release APK
+        env:
+          KEYSTORE_FILE: upload-keystore.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: flutter build apk --release --no-pub
+
+      - name: Upload Signed APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: budget-pulse-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 14
 
   # ==========================================
   # JOB 3: Build Unsigned iOS Release
