@@ -195,6 +195,8 @@ const SizedBox(height: 24),
 
               Expanded(
                 child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: transactions.length,
                   itemBuilder: (context, index) {
                     final tx = transactions[index];
