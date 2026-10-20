@@ -74,6 +74,28 @@ Future<void> deleteTransaction(TransactionModel transaction) async {
     // Refresh state to update UI and recalculate balance + chart
     state = _fetchTransactionsFromBox();
   }
+
+
+
+
+
+Future<String> exportToCsv() async {
+    final transactions = state;
+    
+    // Create CSV Header
+    final buffer = StringBuffer();
+    buffer.writeln('ID,Title,Amount,Category,Type,Date');
+
+    // Append each transaction row
+    for (final tx in transactions) {
+      buffer.writeln(
+        '"${tx.transactionId}","${tx.title}",${tx.amount},"${tx.category}","${tx.isExpense ? 'Expense' : 'Income'}","${tx.date}"',
+      );
+    }
+
+    return buffer.toString();
+  }
+
 }
   // Global provider exposing our transaction notifier to the UI
 final transactionProvider =

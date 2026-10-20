@@ -29,6 +29,37 @@ final selectedCategory = ref.watch(selectedCategoryProvider);
 
 
     return Scaffold(
+     appBar:  AppBar(
+  title: const Text('BudgetPulse'),
+  backgroundColor: const Color(0xFF1E293B),
+  actions: [
+    IconButton(
+      icon: const Icon(Icons.download_rounded, color: Colors.white),
+      tooltip: 'Export Transactions (CSV)',
+      onPressed: () async {
+        final csvData = await ref.read(transactionProvider.notifier).exportToCsv();
+        
+        // For now, show it in a dialog or log it (you can wire it up with share_plus later)
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: const Color(0xFF1E293B),
+            title: const Text('Exported CSV Data', style: TextStyle(color: Colors.white)),
+            content: SingleChildScrollView(
+              child: Text(csvData, style: const TextStyle(color: Colors.white70, fontFamily: 'monospace')),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  ],
+),
       backgroundColor: const Color(0xFF0F172A),
       floatingActionButton: FloatingActionButton(
       backgroundColor: const Color(0xFF4F46E5),
