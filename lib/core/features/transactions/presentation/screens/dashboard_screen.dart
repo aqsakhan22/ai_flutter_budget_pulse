@@ -34,11 +34,13 @@ class DashboardScreen extends ConsumerWidget{
         _showAddTransactionSheet(context);
       },
     ),
-      body: SafeArea(
+      body: SingleChildScrollView(
+       
         child: 
       Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: 
+        Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
