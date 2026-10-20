@@ -94,10 +94,10 @@ jobs:
           retention-days: 14
 
   # ==========================================
-  # JOB 3: Deploy iOS to TestFlight (Paste here!)
+  # JOB 3: Build Unsigned iOS Release
   # ==========================================
-  deploy_ios_testflight:
-    name: Deploy to TestFlight
+  build_ios:
+    name: Build iOS Release (Unsigned)
     needs: analyze_and_test
     runs-on: macos-latest
     steps:
@@ -113,23 +113,10 @@ jobs:
       - name: Inject .env File
         run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
 
-      - name: Install Dependencies & Generate Code
+      - name: Install Dependencies & Generate Adapters
         run: |
           flutter pub get
           dart run build_runner build --delete-conflicting-outputs
 
-      - name: Setup Ruby & Fastlane
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-          bundler-cache: true
-          working-directory: ios
-
-      - name: Build and Upload to TestFlight via Fastlane
-        env:
-          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
-        run: |
-          cd ios
-          bundle exec fastlane beta
+      - name: Build iOS Release (No Codesign)
+        run: flutter build ios --release --no-codesign
