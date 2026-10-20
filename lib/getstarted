@@ -1,0 +1,9 @@
+lib/
+├── core/               # Constants, themes, network clients, routers
+├── features/
+    ├── transactions/
+        ├── data/       # Models, DTOs, local/remote data sources, repositories impl
+        ├── domain/     # Entities, use cases, repository interfaces
+        ├── presentation/ # Riverpod providers, UI screens, widgets
+
+    
