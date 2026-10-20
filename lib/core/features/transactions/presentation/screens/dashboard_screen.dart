@@ -199,7 +199,28 @@ const SizedBox(height: 24),
                   itemBuilder: (context, index) {
                     final tx = transactions[index];
 
-                    return Container(
+                    return 
+                    Dismissible(
+                      key: ValueKey(tx.transactionId),
+                      direction: DismissDirection.endToStart,
+  background: Container(
+    alignment: Alignment.centerRight,
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    margin: const EdgeInsets.only(bottom: 12),
+    decoration: BoxDecoration(
+      color: Colors.redAccent.withOpacity(0.85),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: const Icon(Icons.delete_outline, color: Colors.white),
+  ),
+  onDismissed: (_) {
+    ref.read(transactionProvider.notifier).deleteTransaction(tx);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('${tx.title} deleted')),
+    );
+  },
+
+                     child:  Container(
                   margin: const EdgeInsets.only(bottom: 12),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
@@ -237,7 +258,8 @@ const SizedBox(height: 24),
                           ),
                         ),
                       ),
-                    );
+                    ));
+                   
 
                   }
 

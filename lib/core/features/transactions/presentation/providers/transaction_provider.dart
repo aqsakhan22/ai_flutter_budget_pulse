@@ -48,6 +48,15 @@ List<TransactionModel> _fetchTransactionsFromBox() {
     state = _fetchTransactionsFromBox();
   }
 
+
+
+Future<void> deleteTransaction(TransactionModel transaction) async {
+    // HiveObject provides .delete() to remove this exact record from its box
+    await transaction.delete();
+
+    // Refresh state to update UI and recalculate balance + chart
+    state = _fetchTransactionsFromBox();
+  }
 }
   // Global provider exposing our transaction notifier to the UI
 final transactionProvider =
