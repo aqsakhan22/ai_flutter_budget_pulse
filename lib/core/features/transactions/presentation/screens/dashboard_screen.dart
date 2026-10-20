@@ -35,12 +35,12 @@ class DashboardScreen extends ConsumerWidget{
       },
     ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
        
         child: 
-      Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: 
+     
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,8 +195,7 @@ const SizedBox(height: 24),
               ),
               const SizedBox(height: 12),
 
-              Expanded(
-                child: ListView.builder(
+              ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: transactions.length,
@@ -268,12 +267,12 @@ const SizedBox(height: 24),
                   }
 
                 ),
-              )
+              
             
           ],
         ),
         
-        )),
+        ),
     );
 
    
