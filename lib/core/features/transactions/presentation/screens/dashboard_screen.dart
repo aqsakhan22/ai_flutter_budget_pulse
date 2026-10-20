@@ -22,6 +22,10 @@ class DashboardScreen extends ConsumerWidget{
         .fold(0.0, (sum, t) => sum + t.amount);
     double netBalance = totalIncome - totalExpense;
 
+    // Inside your DashboardScreen build method:
+const categories = ['All', 'Food', 'Transport', 'Utilities', 'Entertainment', 'Shopping'];
+final selectedCategory = ref.watch(selectedCategoryProvider);
+
 
 
     return Scaffold(
@@ -194,7 +198,36 @@ const SizedBox(height: 24),
                 ),
               ),
               const SizedBox(height: 12),
+// Horizontal Filter Chips
+SizedBox(
+  height: 45,
+  child: ListView.builder(
+    scrollDirection: Axis.horizontal,
+    itemCount: categories.length,
+    itemBuilder: (context, index) {
+      final cat = categories[index];
+      final isSelected = (cat == 'All' && selectedCategory == null) || (selectedCategory == cat);
 
+      return Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: ChoiceChip(
+          label: Text(cat),
+          selected: isSelected,
+          selectedColor: Colors.blueAccent,
+          backgroundColor: const Color(0xFF1E293B),
+          labelStyle: TextStyle(
+            color: isSelected ? Colors.white : Colors.white70,
+            fontWeight: FontWeight.w600,
+          ),
+          onSelected: (_) {
+            ref.read(selectedCategoryProvider.notifier).state = (cat == 'All') ? null : cat;
+          },
+        ),
+      );
+    },
+  ),
+),
+const SizedBox(height: 16),
               ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),

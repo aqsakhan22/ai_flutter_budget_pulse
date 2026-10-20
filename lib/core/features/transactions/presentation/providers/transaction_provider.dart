@@ -6,6 +6,23 @@ import 'package:hive/hive.dart';
 import '../../data/models/transaction_model.dart';
 import 'package:budget_pulse/main.dart';
 
+// Selected category filter provider (null means show all)
+final selectedCategoryProvider = StateProvider<String?>((ref) => null);
+
+// Filtered transaction list based on selected category
+final filteredTransactionsProvider = Provider<List<TransactionModel>>((ref) {
+  final allTransactions = ref.watch(transactionProvider);
+  final selectedCategory = ref.watch(selectedCategoryProvider);
+
+  if (selectedCategory == null || selectedCategory.isEmpty) {
+    return allTransactions;
+  }
+
+  return allTransactions
+      .where((tx) => tx.category.toLowerCase() == selectedCategory.toLowerCase())
+      .toList();
+});
+
 
 class TransactionNotifier extends Notifier<List<TransactionModel>>
 {
